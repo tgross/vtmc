@@ -453,8 +453,16 @@ setup_terminal()
 		TERM.cursor(false);
 		TERM.on('resize', check_size);
 
+		TERM.on('special', function(key) {
+			if (key === 'right') {
+				switch_slide(next_file());
+			} else if (key === 'left') {
+				switch_slide(prev_file());
+			}
+		});
+
 		TERM.on('keypress', function (key) {
-			if (key === 'q'.charCodeAt(0)) {
+			if (key === 'q') {
 				TERM.clear();
 				TERM.moveto(1, 1);
 				process.exit(0);
@@ -468,11 +476,21 @@ setup_terminal()
 				WORKING = false;
 			};
 
-			if (key === 'j'.charCodeAt(0)) {
+			if (key === 'j') {
 				switch_slide(next_file(), end);
-			} else if (key === 'k'.charCodeAt(0)) {
+			} else if (key === 'k') {
 				switch_slide(prev_file(), end);
-			} else if (key === 'r'.charCodeAt(0)) {
+			} else if (key === ' ') {
+				switch_slide(next_file(), end);
+			} else if (key === '<') {
+				switch_slide(prev_file(), end);
+			} else if (key === '>') {
+				switch_slide(next_file(), end);
+			} else if (key === 'p') {
+				switch_slide(prev_file(), end);
+			} else if (key === 'n') {
+				switch_slide(next_file(), end);
+			} else if (key === 'r') {
 				switch_slide(CURFILE, end);
 			} else {
 				setImmediate(end);
@@ -506,16 +524,16 @@ main(argv)
 		console.error('');
 		console.error('Control Keys:');
 		console.error('');
-		console.error('     j        next slide');
-		console.error('     k        previous slide');
-		console.error('     r        reload current slide');
-		console.error('     q        quit');
+		console.error('     j/n/>/space/right arrow  next slide');
+		console.error('     k/p/</left arrow         previous slide');
+		console.error('     r                        reload current slide');
+		console.error('     q                        quit');
 		console.error('');
 		process.exit(1);
 	}
 
 	DECKDIR = argv[1] ? argv[1] : process.cwd();
-    
+
 	try {
 		DECK = load_deck();
 	} catch (ex) {
