@@ -36,6 +36,16 @@ load_deck()
 	var deck = JSON.parse(str);
 
 	/*
+	* Set reasonable default header/footer color
+	*/
+	if (!deck.margin) {
+		deck.margin= {};
+	}
+	if (!deck.margin.color) {
+		deck.margin.color = 102;
+	}
+
+	/*
 	 * Allow for international spellings of configuration:
 	 */
 	if (deck.header && deck.header.center) {
@@ -265,7 +275,7 @@ draw_surrounds()
 {
 	var row;
 
-	TERM.colour256(208); /* XXX maybe people don't just want orange? */
+	TERM.colour256(DECK.margin.color);
 
 	do_one('header', 1);
 	do_one('footer', -1);
