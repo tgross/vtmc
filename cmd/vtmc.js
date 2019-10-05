@@ -22,7 +22,7 @@ var INTENSITY = 232;
 var IMAX = 255;
 var IMIN = 232;
 
-var BLUE_RAMP = [ 17, 17, 17, 18, 18, 19, 19, 20, 20, 21, 27, 32, 33,
+var BLUE_RAMP = [ 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 27, 32, 33,
     38, 39, 44, 45, 45, 81, 81, 51, 51, 123, 123 ];
 
 var WORKING = false;
@@ -548,6 +548,7 @@ main(argv)
 	} else if (argv[0] === 'shine') {
 		LIGHT = true;
 		INTENSITY = 255;
+		IMIN = 243;
 		setup_terminal();
 		check_size(TERM.size());
 	} else {
